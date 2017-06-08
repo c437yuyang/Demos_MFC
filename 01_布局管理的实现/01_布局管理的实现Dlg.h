@@ -4,6 +4,8 @@
 
 #pragma once
 
+
+
 #pragma region AutoFit
 /**
 *  控件随窗口变化的控制单元
@@ -73,4 +75,6 @@ public:
 	afx_msg void OnEnterSizeMove();
 	afx_msg void OnExitSizeMove();
 	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
 };

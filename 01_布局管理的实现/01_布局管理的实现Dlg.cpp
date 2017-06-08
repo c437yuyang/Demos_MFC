@@ -166,7 +166,8 @@ void CMy01_布局管理的实现Dlg::OnSize(UINT nType, int cx, int cy)
 			pWndCtrl->MoveWindow(nLeft, nTop, nWidth, nHeight);
 		}
 	}
-
+	Invalidate(TRUE);//强制刷新窗口，防止出现鬼影
+	UpdateWindow(); //updateWindow必须和invalidate配合使用才能有效果
 	CDialogEx::OnSize(nType, cx, cy);
 	// TODO: 在此处添加消息处理程序代码
 }
@@ -200,6 +201,8 @@ BEGIN_MESSAGE_MAP(CMy01_布局管理的实现Dlg, CDialogEx)
 	ON_WM_ENTERSIZEMOVE()
 	ON_WM_EXITSIZEMOVE()
 	ON_WM_NCCALCSIZE()
+	ON_BN_CLICKED(IDOK, &CMy01_布局管理的实现Dlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CMy01_布局管理的实现Dlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -261,6 +264,8 @@ BOOL CMy01_布局管理的实现Dlg::OnInitDialog()
 	MakeCtrlFit(GetDlgItem(IDOK), 100, 100);
 	MakeCtrlFit(GetDlgItem(IDCANCEL), 100, 100);
 #pragma endregion
+	//InitConsoleWindow();
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -333,7 +338,7 @@ BOOL CMy01_布局管理的实现Dlg::OnEraseBkgnd(CDC* pDC)
 void CMy01_布局管理的实现Dlg::OnEnterSizeMove()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	cout << "OnEnterSizeMove" << endl;
+	//cout << "OnEnterSizeMove" << endl;
 	CDialogEx::OnEnterSizeMove();
 }
 
@@ -341,7 +346,7 @@ void CMy01_布局管理的实现Dlg::OnEnterSizeMove()
 void CMy01_布局管理的实现Dlg::OnExitSizeMove()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	cout << "OnExitSizeMove" << endl;
+	//cout << "OnExitSizeMove" << endl;
 
 	CDialogEx::OnExitSizeMove();
 }
@@ -350,7 +355,22 @@ void CMy01_布局管理的实现Dlg::OnExitSizeMove()
 void CMy01_布局管理的实现Dlg::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	cout << "OnNcCalcSize" << endl;
+	//cout << "OnNcCalcSize" << endl;
 
 	CDialogEx::OnNcCalcSize(bCalcValidRects, lpncsp);
+}
+
+
+void CMy01_布局管理的实现Dlg::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	cout << "ok" << endl;
+	//CDialogEx::OnOK();
+}
+
+
+void CMy01_布局管理的实现Dlg::OnBnClickedCancel()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnCancel();
 }

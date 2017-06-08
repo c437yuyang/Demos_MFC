@@ -9,7 +9,14 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+#include <io.h>    
+#include <fcntl.h>  
+void InitConsoleWindow()
+{
+	FILE *stream;
+	if (!AllocConsole() || freopen_s(&stream, "CONOUT$", "w", stdout))
+		AfxMessageBox(_T("InitConsoleWindow Failed!")); //分配控制台在重定向输出流至控制台
+}
 
 // CMy01_布局管理的实现App
 
@@ -50,7 +57,7 @@ BOOL CMy01_布局管理的实现App::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
-
+	InitConsoleWindow();
 
 	AfxEnableControlContainer();
 
@@ -101,6 +108,7 @@ BOOL CMy01_布局管理的实现App::InitInstance()
 
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
+	
 	return FALSE;
 }
 
