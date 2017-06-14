@@ -338,7 +338,7 @@ BOOL CMy01_布局管理的实现Dlg::OnEraseBkgnd(CDC* pDC)
 void CMy01_布局管理的实现Dlg::OnEnterSizeMove()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	//cout << "OnEnterSizeMove" << endl;
+	cout << "OnEnterSizeMove" << endl;
 	CDialogEx::OnEnterSizeMove();
 }
 
@@ -346,7 +346,7 @@ void CMy01_布局管理的实现Dlg::OnEnterSizeMove()
 void CMy01_布局管理的实现Dlg::OnExitSizeMove()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	//cout << "OnExitSizeMove" << endl;
+	cout << "OnExitSizeMove" << endl;
 
 	CDialogEx::OnExitSizeMove();
 }
@@ -355,7 +355,7 @@ void CMy01_布局管理的实现Dlg::OnExitSizeMove()
 void CMy01_布局管理的实现Dlg::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	//cout << "OnNcCalcSize" << endl;
+	cout << "OnNcCalcSize" << endl;
 
 	CDialogEx::OnNcCalcSize(bCalcValidRects, lpncsp);
 }
