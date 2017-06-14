@@ -20,12 +20,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CMy02_文件IO操作Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMy02_文件IO操作Dlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMy02_文件IO操作Dlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CMy02_文件IO操作Dlg::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON4, &CMy02_文件IO操作Dlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -189,11 +190,53 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton3()
 	// TODO: 在此添加控件通知处理程序代码
 	using namespace std;
 	vector<string> vecFiles;
-	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows", vecFiles,"","");//拿到的文件夹不带\\，
+	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows", vecFiles, true);//拿到的文件夹不带\\，找所有文件
 
-	//下面两种错误用法
-	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, "", ""); //不要后面加\\，
-	YXPFileIO::GetDirectoryFiles("E:/caffe-windows/", vecFiles,"","");//也不要用/，后面有个拼接主要是，用的\\进行的拼接
+	
+	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, false, true); //后面可以带\\(修复了)，找所有文件夹
+	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, true, true); //文件夹+文件
+
+	//下面错误用法
+	YXPFileIO::GetDirectoryFiles("E:/caffe-windows/", vecFiles);//也不要用/，后面有个拼接主要是，用的\\进行的拼接
 
 
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton4()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+
+//#define FILE_SHARE_READ                 0x00000001  
+//#define FILE_SHARE_WRITE                0x00000002  
+//#define FILE_SHARE_DELETE               0x00000004  
+//#define FILE_ATTRIBUTE_READONLY             0x00000001  
+//#define FILE_ATTRIBUTE_HIDDEN               0x00000002  
+//#define FILE_ATTRIBUTE_SYSTEM               0x00000004  
+//#define FILE_ATTRIBUTE_DIRECTORY            0x00000010  
+//#define FILE_ATTRIBUTE_ARCHIVE              0x00000020  
+//#define FILE_ATTRIBUTE_DEVICE               0x00000040  
+//#define FILE_ATTRIBUTE_NORMAL               0x00000080
+
+
+	DWORD attr;
+	CString path = _T("E:\\Libs_Cpp\\boost_1_64_0\\INSTALL");
+	attr = GetFileAttributes(path);
+	path = _T("E:\\Libs_Cpp\\boost_1_64_0\\test1.txt"); //通常文件就是FILE_ATTRIBUTE_ARCHIVE,如果在这之上有隐藏的话就或FILE_ATTRIBUTE_HIDDEN，就是加，有只读类似
+	attr = GetFileAttributes(path);
+	path = _T("E:\\Libs_Cpp\\boost_1_64_0\\test2.txt");
+	attr = GetFileAttributes(path);
+	path = _T("E:\\Libs_Cpp\\boost_1_64_0\\test4.txt");
+	attr = GetFileAttributes(path);
+
+	path = _T("E:\\Libs_Cpp\\boost_1_64_0\\test5");
+	attr = GetFileAttributes(path);
+	path = _T("E:\\Libs_Cpp\\boost_1_64_0\\test5.txt"); //不存在就是-1
+	attr = GetFileAttributes(path);
+
+	bool b1 = (DWORD)-1 == attr;
+
+	bool b = (attr != (DWORD)(-1)) &&
+		(attr & FILE_ATTRIBUTE_DIRECTORY);
 }
