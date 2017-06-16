@@ -103,7 +103,7 @@ bool YXPFileIO::SuperMkDir(CString P)
 		return false;
 }
 
-
+//TODO:换成用CString，mfc里面就用CString，不要想那么多
 //取得指定文件夹下的文件及文件夹名称（不递归，只取一级目录），全部用\\，不能/，后面可以带\\(修复了),
 void YXPFileIO::GetDirectoryFiles(const string &strFolder,
 	vector<string> &strVecFileNames,
