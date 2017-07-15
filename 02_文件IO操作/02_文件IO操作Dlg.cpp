@@ -171,12 +171,12 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
-	bool b = YXPFileIO::FindOrCreateDirectory("E:\\a\\b");
+	bool b = YXPFileIO::FindOrCreateDirectory("E:\\a\\我们");
 
 
-	bool b1 = YXPFileIO::SuperMkDir(_T("E:\\a1\\b1"));
-	bool b2 = YXPFileIO::SuperMkDir(_T("E:\\a2\\b2\\"));
-	bool b3 = YXPFileIO::SuperMkDir(_T("E:/a3/b3")); //不能用/
+	//bool b1 = YXPFileIO::SuperMkDir(_T("E:\\a1\\b1"));
+	//bool b2 = YXPFileIO::SuperMkDir(_T("E:\\a2\\b2\\"));
+	//bool b3 = YXPFileIO::SuperMkDir(_T("E:/a3/b3")); //不能用/
 
 }
 
@@ -184,11 +184,11 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton1()
 void CMy02_文件IO操作Dlg::OnBnClickedButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	bool b = YXPFileIO::FolderExists(_T("E:\\caffe-windows\\"));
-	bool b2 = YXPFileIO::FolderExists(_T("E:\\caffe-windows"));
-	bool b3 = YXPFileIO::FolderExists(_T("E:/caffe-windows/"));
-	bool b1 = YXPFileIO::FolderExists(_T("E:\\caffe-windows1\\"));//false
-	bool b4 = YXPFileIO::FolderExists(_T("E:\\"));
+	bool b = YXPFileIO::FolderExists(("E:\\caffe-windows\\"));
+	bool b2 = YXPFileIO::FolderExists(("E:\\caffe-windows"));
+	bool b3 = YXPFileIO::FolderExists(("E:/caffe-windows/"));
+	bool b1 = YXPFileIO::FolderExists(("E:\\caffe-windows1\\"));//false
+	bool b4 = YXPFileIO::FolderExists(("E:\\"));
 }
 
 
