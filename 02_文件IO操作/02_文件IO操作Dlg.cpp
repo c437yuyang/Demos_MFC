@@ -7,6 +7,8 @@
 #include "02_文件IO操作Dlg.h"
 #include "afxdialogex.h"
 #include "YXPFileIO.h"
+#include <iostream>
+using namespace std;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,6 +71,11 @@ BEGIN_MESSAGE_MAP(CMy02_文件IO操作Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMy02_文件IO操作Dlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CMy02_文件IO操作Dlg::OnBnClickedButton3)
 	ON_BN_CLICKED(IDC_BUTTON4, &CMy02_文件IO操作Dlg::OnBnClickedButton4)
+	ON_BN_CLICKED(IDC_BUTTON5, &CMy02_文件IO操作Dlg::OnBnClickedButton5)
+	ON_BN_CLICKED(IDC_BUTTON6, &CMy02_文件IO操作Dlg::OnBnClickedButton6)
+	ON_BN_CLICKED(IDC_BUTTON7, &CMy02_文件IO操作Dlg::OnBnClickedButton7)
+	ON_BN_CLICKED(IDC_BUTTON8, &CMy02_文件IO操作Dlg::OnBnClickedButton8)
+	ON_BN_CLICKED(IDC_BUTTON9, &CMy02_文件IO操作Dlg::OnBnClickedButton9)
 END_MESSAGE_MAP()
 
 
@@ -190,14 +197,20 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton3()
 	// TODO: 在此添加控件通知处理程序代码
 	using namespace std;
 	vector<string> vecFiles;
-	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows", vecFiles, true);//拿到的文件夹不带\\，找所有文件
+	//YXPFileIO::GetDirectoryFiles("E:\\caffe-windows", vecFiles, true);//拿到的文件夹不带\\，找所有文件
 
-	
-	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, false, true); //后面可以带\\(修复了)，找所有文件夹
-	YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, true, true); //文件夹+文件
+	//
+	//YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, false, true); //后面可以带\\(修复了)，找所有文件夹
+	//YXPFileIO::GetDirectoryFiles("E:\\caffe-windows\\", vecFiles, true, true); //文件夹+文件
 
-	//下面错误用法
-	YXPFileIO::GetDirectoryFiles("E:/caffe-windows/", vecFiles);//也不要用/，后面有个拼接主要是，用的\\进行的拼接
+	////下面错误用法
+	//YXPFileIO::GetDirectoryFiles("E:/caffe-windows/", vecFiles);//也不要用/，后面有个拼接主要是，用的\\进行的拼接
+
+	CString path(YXPFileIO::BrowseFolder(this->m_hWnd));
+	USES_CONVERSION;
+	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, true, false, ".docx");
+	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, true, false, "",".rar");
+	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, false, false, "", ".rar");
 
 
 }
@@ -239,4 +252,56 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton4()
 
 	bool b = (attr != (DWORD)(-1)) &&
 		(attr & FILE_ATTRIBUTE_DIRECTORY);
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton5()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	CString selectedFolder = YXPFileIO::BrowseFolder(this->m_hWnd);
+	MessageBox(selectedFolder);
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton6()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	USES_CONVERSION;
+	CString selectedFolder = YXPFileIO::BrowseFolder(this->m_hWnd);
+	YXPFileIO::DeleteDirectory(W2A(selectedFolder),false);
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton7()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	USES_CONVERSION;
+	MessageBox(A2W(YXPFileIO::GetFileNameNoExt("E:\\DSD\\A.TXT").c_str()));
+	MessageBox(A2W(YXPFileIO::GetFileNameNoExt("A.TXT").c_str()));
+	MessageBox(A2W(YXPFileIO::GetFileNameNoPath("E:\\DSD\\A.TXT").c_str()));
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton8()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	USES_CONVERSION;
+
+	MessageBox(A2W(YXPFileIO::GetFileNameExt("E:\\DSD\\A.TXT").c_str()));
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton9()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	MessageBox(YXPFileIO::CheckFileExt("A.txt",".TXT")?L"True":L"False");
+	MessageBox(YXPFileIO::CheckFileExt("A.txt", ".txt") ? L"True" : L"False");
+	MessageBox(YXPFileIO::CheckFileExt("A.txt", ".tx") ? L"True" : L"False");
+
+
 }
