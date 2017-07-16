@@ -76,6 +76,9 @@ BEGIN_MESSAGE_MAP(CMy02_文件IO操作Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON7, &CMy02_文件IO操作Dlg::OnBnClickedButton7)
 	ON_BN_CLICKED(IDC_BUTTON8, &CMy02_文件IO操作Dlg::OnBnClickedButton8)
 	ON_BN_CLICKED(IDC_BUTTON9, &CMy02_文件IO操作Dlg::OnBnClickedButton9)
+	ON_BN_CLICKED(IDC_BUTTON10, &CMy02_文件IO操作Dlg::OnBnClickedButton10)
+	ON_BN_CLICKED(IDC_BUTTON11, &CMy02_文件IO操作Dlg::OnBnClickedButton11)
+	ON_BN_CLICKED(IDC_BUTTON12, &CMy02_文件IO操作Dlg::OnBnClickedButton12)
 END_MESSAGE_MAP()
 
 
@@ -171,10 +174,12 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
-	bool b = YXPFileIO::FindOrCreateDirectory("E:\\a\\我们");
+	//bool b = YXPFileIO::FindOrCreateDirectory("E:\\a\\我们");
 
 
-	//bool b1 = YXPFileIO::SuperMkDir(_T("E:\\a1\\b1"));
+	bool b1 = YXPFileIO::RecurMkDir("E:\\a1\\b1");
+	 b1 = YXPFileIO::RecurMkDir("E:\\a1\\我们");
+
 	//bool b2 = YXPFileIO::SuperMkDir(_T("E:\\a2\\b2\\"));
 	//bool b3 = YXPFileIO::SuperMkDir(_T("E:/a3/b3")); //不能用/
 
@@ -206,11 +211,10 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton3()
 	////下面错误用法
 	//YXPFileIO::GetDirectoryFiles("E:/caffe-windows/", vecFiles);//也不要用/，后面有个拼接主要是，用的\\进行的拼接
 
-	CString path(YXPFileIO::BrowseFolder(this->m_hWnd));
-	USES_CONVERSION;
-	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, true, false, ".docx");
-	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, true, false, "",".rar");
-	YXPFileIO::GetDirectoryFiles(W2A(path), vecFiles, false, false, "", ".rar");
+	string path(YXPFileIO::BrowseFolder("请选择要打开的目录",this->m_hWnd));
+	YXPFileIO::GetDirectoryFiles((path), vecFiles, true, false, ".docx");
+	YXPFileIO::GetDirectoryFiles((path), vecFiles, true, false, "",".rar");
+	YXPFileIO::GetDirectoryFiles((path), vecFiles, false, false, "", ".rar");
 
 
 }
@@ -259,17 +263,16 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton5()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
-	CString selectedFolder = YXPFileIO::BrowseFolder(this->m_hWnd);
-	MessageBox(selectedFolder);
+	string selectedFolder = YXPFileIO::BrowseFolder("",this->m_hWnd);
+	MessageBox(CString(selectedFolder.c_str()));
 }
 
 
 void CMy02_文件IO操作Dlg::OnBnClickedButton6()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	USES_CONVERSION;
-	CString selectedFolder = YXPFileIO::BrowseFolder(this->m_hWnd);
-	YXPFileIO::DeleteDirectory(W2A(selectedFolder),false);
+	string selectedFolder = YXPFileIO::BrowseFolder("", this->m_hWnd);
+	YXPFileIO::DeleteDirectory((selectedFolder),false);
 
 }
 
@@ -303,5 +306,35 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton9()
 	MessageBox(YXPFileIO::CheckFileExt("A.txt", ".txt") ? L"True" : L"False");
 	MessageBox(YXPFileIO::CheckFileExt("A.txt", ".tx") ? L"True" : L"False");
 
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton10()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	bool b = YXPFileIO::Rename("E:\\a","E:\\b");
+	b = YXPFileIO::Rename("E:\\a", "E:\\b",true);
+
+	//int i = rename("E:\\a", "E:\\b");
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton11()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	USES_CONVERSION;
+	
+	AfxMessageBox(A2W(YXPFileIO::GetAppPath().c_str()));
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton12()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	bool b = YXPFileIO::CopyDirFiles("E:\\a", "E:\\b", false);
 
 }
