@@ -79,6 +79,7 @@ BEGIN_MESSAGE_MAP(CMy02_文件IO操作Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON10, &CMy02_文件IO操作Dlg::OnBnClickedButton10)
 	ON_BN_CLICKED(IDC_BUTTON11, &CMy02_文件IO操作Dlg::OnBnClickedButton11)
 	ON_BN_CLICKED(IDC_BUTTON12, &CMy02_文件IO操作Dlg::OnBnClickedButton12)
+	ON_BN_CLICKED(IDC_BUTTON13, &CMy02_文件IO操作Dlg::OnBnClickedButton13)
 END_MESSAGE_MAP()
 
 
@@ -336,5 +337,13 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton12()
 	// TODO: 在此添加控件通知处理程序代码
 
 	bool b = YXPFileIO::CopyDirFiles("E:\\a", "E:\\b", false);
+
+}
+
+
+void CMy02_文件IO操作Dlg::OnBnClickedButton13()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	std::string str = YXPFileIO::BrowseFile();
 
 }

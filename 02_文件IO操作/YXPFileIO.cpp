@@ -347,3 +347,29 @@ bool YXPFileIO::CopyDirFiles(const std::string & src, const std::string & dst, b
 
 	return true;
 }
+
+
+std::string YXPFileIO::BrowseFile(const std::string strFilter, bool isOpen)
+{
+	char Buffer[MAX_PATH];
+	OPENFILENAMEA   ofn;
+	memset(&ofn, 0, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = Buffer;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrFilter = strFilter.c_str();
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST;
+
+	if (isOpen) 
+	{
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+		GetOpenFileNameA(&ofn);
+		return Buffer;
+	}
+
+	GetSaveFileNameA(&ofn);
+	return string(Buffer);
+
+}
