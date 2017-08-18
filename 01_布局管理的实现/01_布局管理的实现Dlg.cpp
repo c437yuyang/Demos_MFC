@@ -20,17 +20,19 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -43,6 +45,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 
@@ -203,6 +206,7 @@ BEGIN_MESSAGE_MAP(CMy01_布局管理的实现Dlg, CDialogEx)
 	ON_WM_NCCALCSIZE()
 	ON_BN_CLICKED(IDOK, &CMy01_布局管理的实现Dlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CMy01_布局管理的实现Dlg::OnBnClickedCancel)
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 
@@ -373,4 +377,17 @@ void CMy01_布局管理的实现Dlg::OnBnClickedCancel()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CDialogEx::OnCancel();
+}
+
+
+#include <iostream>
+using namespace std;
+
+void CMy01_布局管理的实现Dlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	cout << point.x << "," << point.y << endl;
+
+	CDialogEx::OnMouseMove(nFlags, point);
 }
