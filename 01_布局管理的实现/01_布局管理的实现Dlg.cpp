@@ -33,6 +33,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -46,6 +47,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -390,4 +392,14 @@ void CMy01_布局管理的实现Dlg::OnMouseMove(UINT nFlags, CPoint point)
 	cout << point.x << "," << point.y << endl;
 
 	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+
+void CAboutDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: 在此处添加消息处理程序代码
+
+
 }

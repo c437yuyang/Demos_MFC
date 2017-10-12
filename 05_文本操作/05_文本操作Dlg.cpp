@@ -64,6 +64,7 @@ BEGIN_MESSAGE_MAP(CMy05_文本操作Dlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BTN_WIDE2NARROW, &CMy05_文本操作Dlg::OnBnClickedBtnWide2narrow)
 END_MESSAGE_MAP()
 
 
@@ -152,3 +153,17 @@ HCURSOR CMy05_文本操作Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+#include "StrCvt.h"
+#include <string>
+using yxp_utility::StrCvt;
+void CMy05_文本操作Dlg::OnBnClickedBtnWide2narrow()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	CString str = _T("abc我们de"),str2;
+	std::string str1;
+	StrCvt::Convert(str, str1);
+	StrCvt::Convert(str1, str2);
+	MessageBox(str2);
+}

@@ -36,9 +36,9 @@ public:
 
 	static std::string GetFileNameNoExt(const std::string &filename); //只判断.的位置，不会去除路径
 	static std::string GetFileNameExt(const std::string &filename);
-	static	bool CheckFileExt(const std::string& Path, const std::string &ext);
-	static bool Rename(const std::string &path, const std::string &dst,bool IsExistReplace=false);
+	static bool CheckFileExt(const std::string& Path, const std::string &ext);
+	static bool Rename(const std::string &path, const std::string &dst, bool IsExistReplace = false);
 	static std::string GetAppPath();
-	static bool CopyDirFiles(const std::string&src, const std::string &dst,bool IsExistReplace=false);
+	static bool CopyDirFiles(const std::string&src, const std::string &dst, bool IsExistReplace = false);
 };
 
