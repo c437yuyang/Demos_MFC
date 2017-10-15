@@ -63,7 +63,7 @@ bool YXPFileIO::RecurMkDir(const std::string& path)
 	int len = p.length();
 	if (len < 2) return false;
 
-	if ('\\' == p[len - 1])
+	if ('\\' == p[len - 1]|| '/' == p[len - 1])
 	{
 		p = p.substr(0, len - 1);
 		len = p.length();
@@ -78,9 +78,9 @@ bool YXPFileIO::RecurMkDir(const std::string& path)
 
 	if (FolderExists(p))return true;
 
-	string parDir = p.substr(0, p.rfind('\\'));
+	string parDir = p.substr(0, p.find_last_of('\\/'));
 
-	if (parDir.length() <= 0)return false;
+	if (parDir.length() <= 0) return false;
 
 	bool Ret = RecurMkDir(parDir);
 
@@ -102,6 +102,18 @@ bool YXPFileIO::RecurMkDir(const std::string& path)
 // 返回的是文件的全路径
 void YXPFileIO::GetDirectoryFiles(const string &strFolder,
 	vector<string> &strVecFileNames,
+	bool do_sort,
+	bool OnlyFiles,
+	bool OnlyDirectories,
+	const string &extInclude, //指定只包含的后缀名，带.
+	const string &extExclude) //指定要排除的后缀名，带.
+{
+	strVecFileNames = GetDirectoryFiles(strFolder, do_sort, OnlyFiles, OnlyDirectories, extInclude, extExclude);
+}
+
+
+std::vector<std::string> YXPFileIO::GetDirectoryFiles(const string &strFolder,
+	bool do_sort,
 	bool OnlyFiles,
 	bool OnlyDirectories,
 	const string &extInclude, //指定只包含的后缀名，带.
@@ -113,14 +125,13 @@ void YXPFileIO::GetDirectoryFiles(const string &strFolder,
 		OnlyFiles = false;
 		OnlyDirectories = false;
 	}
-
-	strVecFileNames.clear();
+	vector<std::string> strVecFileNames;
 	struct _finddata_t filefind;
 	string  curr = strFolder + "\\*.*";
 	int  done = 0;
 	int  handle;
 	if ((handle = _findfirst(curr.c_str(), &filefind)) == -1)
-		return;
+		return strVecFileNames;
 
 	string tempfolder = strFolder;
 	if (strFolder[strFolder.size() - 1] != '\\')
@@ -151,11 +162,15 @@ void YXPFileIO::GetDirectoryFiles(const string &strFolder,
 		{
 			strVecFileNames.push_back(tempfolder + filefind.name);
 		}
-
 	}
 	_findclose(handle);
-	if (OnlyDirectories) return; //只检索目录的话就返回了
-	//去掉不需要的后缀名文件
+	if (do_sort) //简单的排序版本，直接调用的string.operator<
+		std::sort(strVecFileNames.begin(), strVecFileNames.end());
+
+	if (OnlyDirectories)
+		return strVecFileNames; //只检索目录的话就返回了
+
+				//去掉不需要的后缀名文件
 	if (!extInclude.empty())
 	{
 		for (auto path = strVecFileNames.begin(); path != strVecFileNames.end();)
@@ -191,7 +206,9 @@ void YXPFileIO::GetDirectoryFiles(const string &strFolder,
 		}
 	}
 
+	return strVecFileNames;
 }
+
 
 //后面一定要再检查返回值是否为空!,操作还是会继续的
 std::string YXPFileIO::BrowseFolder(const std::string & title, const HWND owner)
@@ -289,7 +306,7 @@ bool YXPFileIO::Rename(const std::string &src, const std::string &dst, bool IsEx
 	return	rename(src.c_str(), dst.c_str()) < 0 ? false : true;
 }
 
-std::string YXPFileIO::GetAppPath()
+std::string YXPFileIO::GetAppStdStringPath()
 {
 	char exeFullPath[MAX_PATH];
 
@@ -373,3 +390,41 @@ std::string YXPFileIO::BrowseFile(const std::string strFilter, bool isOpen)
 	return string(Buffer);
 
 }
+
+CString YXPFileIO::GetAppCStringPath() //公共函数用于取得程序运行路径，返回值带'\\'
+{
+	//取得应用程序路径	
+	TCHAR exeFullPath[MAX_PATH];
+	GetModuleFileName(NULL, exeFullPath, MAX_PATH);
+	CString pathName(exeFullPath);
+
+	//返回值最后自带'\\'
+	int index = pathName.ReverseFind('\\');
+	return pathName.Left(index + 1);
+}
+
+//从文件读入到string里  
+bool YXPFileIO::readAllText(const std::string & filename, std::string & txt)
+{
+	ifstream ifs(filename);
+	if (!ifs.is_open()) return false;
+
+	//将文件读入到ostringstream对象buf中  
+	ostringstream buf;
+	char ch;
+	while (buf&&ifs.get(ch))
+		buf.put(ch);
+	//返回与流对象buf关联的字符串  
+	txt = buf.str();
+	return true;
+}
+
+bool YXPFileIO::writeToText(const std::string & filename, const std::string & txt)
+{
+	ofstream ofs(filename);
+	if (!ofs.is_open()) return false;
+	ofs.write(txt.c_str(), txt.length());
+	ofs.close();
+	return true;
+}
+

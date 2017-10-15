@@ -328,7 +328,7 @@ void CMy02_文件IO操作Dlg::OnBnClickedButton11()
 	// TODO: 在此添加控件通知处理程序代码
 	USES_CONVERSION;
 	
-	AfxMessageBox(A2W(YXPFileIO::GetAppPath().c_str()));
+	AfxMessageBox(A2W(YXPFileIO::GetAppStdStringPath().c_str()));
 }
 
 
