@@ -22,7 +22,8 @@ using namespace std;
 
 #pragma region 查找Dll目录的次序：
 
-//应用程序使用LoadLibrary显式链接，那么在这个函数的参数中可以指定DLL文件的完整路径。如果不指定路径，或是进行隐式链接，Windows将遵循下面的搜索顺序来定位DLL：
+//应用程序使用LoadLibrary显式链接，那么在这个函数的参数中可以指定DLL文件的完整路径。
+//如果不指定路径，或是进行隐式链接，Windows将遵循下面的搜索顺序来定位DLL：
 //1． 包含EXE文件的目录，
 //2． 进程的当前工作目录，
 //3． Windows系统目录，
