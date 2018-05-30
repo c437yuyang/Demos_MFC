@@ -47,6 +47,15 @@ using namespace std;
 #pragma endregion
 
 
+#pragma region 一种简单的使用dll的方法，参考自键值offer的Utilities的做法，
+//1.Dll部分不变
+//2.使用的时候，直接在当前项目中添加引用，然后包含对应头文件即可。
+//这个方法也就是少了一步lib文件的包含而已
+//具体请看:Test_Reference2UseDll 解决方案
+#pragma endregion
+
+
+
 int main()
 {
 	int c = Add(1, 2); //可以看到，一个解决方案下面的，直接就能调试到断点
